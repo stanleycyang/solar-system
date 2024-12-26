@@ -1,7 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
 
 :root {
-  --sun-size: 80px;
+  /* Base sizes that will scale with viewport */
+  --base-unit: min(1.2vw, 16px);
+  --sun-size: calc(var(--base-unit) * 5);
+
+  /* Planet sizes relative to base unit */
+  --mercury-size: calc(var(--base-unit) * 0.6);
+  --venus-size: calc(var(--base-unit) * 0.9);
+  --earth-size: calc(var(--base-unit) * 1);
+  --mars-size: calc(var(--base-unit) * 0.7);
+  --jupiter-size: calc(var(--base-unit) * 2.5);
+  --saturn-size: calc(var(--base-unit) * 2.2);
+  --uranus-size: calc(var(--base-unit) * 1.6);
+  --neptune-size: calc(var(--base-unit) * 1.5);
+  --pluto-size: calc(var(--base-unit) * 0.5);
 }
 
 * {
@@ -50,7 +63,8 @@ body {
     #ff8c00 45%,
     #ff4500 100%
   );
-  box-shadow: 0 0 60px #ff8c00, 0 0 120px rgba(255, 140, 0, 0.4);
+  box-shadow: 0 0 60px #ff8c00, 0 0 120px rgba(255, 140, 0, 0.4),
+    inset -4px -4px 20px rgba(0, 0, 0, 0.3);
   z-index: 1;
 }
 
@@ -74,77 +88,94 @@ body {
 
 /* Planet specific styles */
 .mercury {
-  width: 10px;
-  height: 10px;
-  background: linear-gradient(180deg, #807e7d 0%, #6e6c6b 100%);
+  width: var(--mercury-size);
+  height: var(--mercury-size);
+  background: linear-gradient(45deg, #807e7d 0%, #6e6c6b 50%, #4a4a4a 100%);
+  box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.4),
+    0 0 8px rgba(255, 255, 255, 0.2);
 }
 
 .venus {
-  width: 15px;
-  height: 15px;
-  background: linear-gradient(180deg, #e6b87c 0%, #c7956b 100%);
+  width: var(--venus-size);
+  height: var(--venus-size);
+  background: linear-gradient(45deg, #e6b87c 0%, #c7956b 50%, #9e7854 100%);
+  box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.4),
+    0 0 12px rgba(230, 184, 124, 0.4);
 }
 
 .earth {
-  width: 16px;
-  height: 16px;
-  background: linear-gradient(180deg, #4b6995 0%, #3f7ac5 100%);
-  box-shadow: 0 0 15px rgba(63, 122, 197, 0.3);
+  width: var(--earth-size);
+  height: var(--earth-size);
+  background: linear-gradient(45deg, #4b6995 0%, #3f7ac5 50%, #204b8f 100%);
+  box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.4),
+    0 0 15px rgba(63, 122, 197, 0.5);
 }
 
 .mars {
-  width: 12px;
-  height: 12px;
-  background: linear-gradient(180deg, #c1440e 0%, #a93b0c 100%);
+  width: var(--mars-size);
+  height: var(--mars-size);
+  background: linear-gradient(45deg, #c1440e 0%, #a93b0c 50%, #8b2f09 100%);
+  box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.4),
+    0 0 12px rgba(193, 68, 14, 0.4);
 }
 
 .jupiter {
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(180deg, #c88b3a 0%, #b47431 100%);
-  box-shadow: 0 0 20px rgba(200, 139, 58, 0.3);
+  width: var(--jupiter-size);
+  height: var(--jupiter-size);
+  background: linear-gradient(45deg, #c88b3a 0%, #b47431 50%, #915c27 100%);
+  box-shadow: inset -4px -4px 8px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(200, 139, 58, 0.4);
 }
 
 .saturn {
-  width: 35px;
-  height: 35px;
-  background: linear-gradient(180deg, #c5ab6e 0%, #b69a5d 100%);
+  width: var(--saturn-size);
+  height: var(--saturn-size);
+  background: linear-gradient(45deg, #c5ab6e 0%, #b69a5d 50%, #8f784a 100%);
+  box-shadow: inset -4px -4px 8px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(197, 171, 110, 0.4);
 }
 
 .saturn-rings {
   position: absolute;
-  width: 70px;
-  height: 4px;
+  width: calc(var(--saturn-size) * 2);
+  height: calc(var(--saturn-size) * 0.1);
   background: linear-gradient(
     90deg,
-    rgba(197, 171, 110, 0.2) 0%,
+    rgba(197, 171, 110, 0.1) 0%,
     rgba(197, 171, 110, 0.8) 50%,
-    rgba(197, 171, 110, 0.2) 100%
+    rgba(197, 171, 110, 0.1) 100%
   );
   border-radius: 50%;
   transform: rotate(-30deg);
   top: 50%;
   left: 50%;
   transform-origin: center;
-  margin-left: -35px;
-  margin-top: -2px;
+  margin-left: calc(var(--saturn-size) * -1);
+  margin-top: calc(var(--saturn-size) * -0.05);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3),
+    0 0 8px rgba(197, 171, 110, 0.3);
 }
 
 .uranus {
-  width: 25px;
-  height: 25px;
-  background: linear-gradient(180deg, #4fd0e7 0%, #3cbed5 100%);
+  width: var(--uranus-size);
+  height: var(--uranus-size);
+  background: linear-gradient(45deg, #4fd0e7 0%, #3cbed5 50%, #2da4b9 100%);
+  box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.4),
+    0 0 15px rgba(79, 208, 231, 0.4);
 }
 
 .neptune {
-  width: 24px;
-  height: 24px;
-  background: linear-gradient(180deg, #4b70dd 0%, #3a5fc7 100%);
-  box-shadow: 0 0 15px rgba(75, 112, 221, 0.3);
+  width: var(--neptune-size);
+  height: var(--neptune-size);
+  background: linear-gradient(45deg, #4b70dd 0%, #3a5fc7 50%, #2d4ba6 100%);
+  box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.4),
+    0 0 15px rgba(75, 112, 221, 0.4);
 }
 
 .pluto {
-  width: 8px;
-  height: 8px;
-  background: linear-gradient(180deg, #936c5a 0%, #7d5b4b 100%);
+  width: var(--pluto-size);
+  height: var(--pluto-size);
+  background: linear-gradient(45deg, #936c5a 0%, #7d5b4b 50%, #634639 100%);
+  box-shadow: inset -1px -1px 3px rgba(0, 0, 0, 0.4),
+    0 0 8px rgba(147, 108, 90, 0.3);
 }
