@@ -150,7 +150,6 @@ const getBaseOrbits = () => [
 export default function SolarSystem() {
   const animationFrameRef = useRef<number | null>(null);
   const [planets, setPlanets] = useState<PlanetConfig[]>([]);
-  const [selectedPlanet, setSelectedPlanet] = useState<string | null>(null);
   const [isPaused, setIsPaused] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [showOrbits, setShowOrbits] = useState(true);
@@ -208,10 +207,6 @@ export default function SolarSystem() {
     };
   }, [planets, isPaused, animationSpeed]);
 
-  const handlePlanetClick = (name: string) => {
-    setSelectedPlanet(name);
-  };
-
   const handleSpeedChange = (newSpeed: number) => {
     setAnimationSpeed(newSpeed);
     setSpeed(newSpeed);
@@ -232,16 +227,7 @@ export default function SolarSystem() {
               height: `${orbitRadius * 2}px`,
             }}
           >
-            <div
-              className={`planet ${name} ${
-                selectedPlanet === name ? "selected" : ""
-              }`}
-              data-rotation='0'
-              onClick={(e) => {
-                e.stopPropagation();
-                handlePlanetClick(name);
-              }}
-            >
+            <div className={`planet ${name}`} data-rotation='0'>
               {name === "saturn" && <div className='saturn-rings' />}
             </div>
           </div>
@@ -256,13 +242,6 @@ export default function SolarSystem() {
         showOrbits={showOrbits}
         onOrbitsToggle={() => setShowOrbits(!showOrbits)}
       />
-
-      {selectedPlanet && (
-        <PlanetInfo
-          planet={planets.find((p) => p.name === selectedPlanet)!}
-          onClose={() => setSelectedPlanet(null)}
-        />
-      )}
     </div>
   );
 }
