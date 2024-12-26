@@ -194,10 +194,10 @@ body {
 
 /* Add these new styles */
 .solar-system-container {
-  position: relative;
+  position: fixed;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+  background-color: #000;
 }
 
 .controls {
@@ -212,6 +212,7 @@ body {
   gap: 20px;
   align-items: center;
   z-index: 10;
+  pointer-events: all;
 }
 
 .controls button {

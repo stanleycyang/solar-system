@@ -23,7 +23,7 @@ export default function Controls({
         <input
           type='range'
           min='0.1'
-          max='5'
+          max='10'
           step='0.1'
           value={speed}
           onChange={(e) => onSpeedChange(parseFloat(e.target.value))}
