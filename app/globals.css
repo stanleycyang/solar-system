@@ -1,20 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
 
 :root {
-  /* Base sizes that will scale with viewport */
-  --base-unit: min(1.2vw, 16px);
-  --sun-size: calc(var(--base-unit) * 5);
+  /* Dynamic base unit that scales with viewport but has limits */
+  --viewport-scale: min(1vh, 1vw);
+  --base-unit: clamp(8px, var(--viewport-scale), 16px);
 
-  /* Planet sizes relative to base unit */
-  --mercury-size: calc(var(--base-unit) * 0.6);
-  --venus-size: calc(var(--base-unit) * 0.9);
-  --earth-size: calc(var(--base-unit) * 1);
-  --mars-size: calc(var(--base-unit) * 0.7);
-  --jupiter-size: calc(var(--base-unit) * 2.5);
-  --saturn-size: calc(var(--base-unit) * 2.2);
-  --uranus-size: calc(var(--base-unit) * 1.6);
-  --neptune-size: calc(var(--base-unit) * 1.5);
-  --pluto-size: calc(var(--base-unit) * 0.5);
+  /* Sun size - scales with viewport but maintains minimum/maximum sizes */
+  --sun-size: clamp(60px, calc(var(--base-unit) * 5), 120px);
+
+  /* Scale factor for orbit spacing */
+  --orbit-scale: clamp(0.6, calc(var(--viewport-scale) * 0.1), 1);
+
+  /* Planet sizes with minimum and maximum values */
+  --mercury-size: clamp(6px, calc(var(--base-unit) * 0.6), 12px);
+  --venus-size: clamp(8px, calc(var(--base-unit) * 0.9), 18px);
+  --earth-size: clamp(8px, calc(var(--base-unit) * 1), 20px);
+  --mars-size: clamp(7px, calc(var(--base-unit) * 0.7), 14px);
+  --jupiter-size: clamp(20px, calc(var(--base-unit) * 2.5), 50px);
+  --saturn-size: clamp(18px, calc(var(--base-unit) * 2.2), 44px);
+  --uranus-size: clamp(12px, calc(var(--base-unit) * 1.6), 32px);
+  --neptune-size: clamp(12px, calc(var(--base-unit) * 1.5), 30px);
+  --pluto-size: clamp(4px, calc(var(--base-unit) * 0.5), 10px);
 }
 
 * {
@@ -25,7 +31,7 @@
 
 html,
 body {
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   margin: 0;
   padding: 0;
@@ -48,7 +54,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #000;
+  transform-origin: center center;
 }
 
 .sun {
@@ -66,15 +72,19 @@ body {
   box-shadow: 0 0 60px #ff8c00, 0 0 120px rgba(255, 140, 0, 0.4),
     inset -4px -4px 20px rgba(0, 0, 0, 0.3);
   z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .orbit {
   position: absolute;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
 .planet {
@@ -84,6 +94,10 @@ body {
   top: 50%;
   transform-origin: center center;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: none;
+  z-index: 2;
+  pointer-events: auto;
 }
 
 /* Planet specific styles */
@@ -178,4 +192,139 @@ body {
   background: linear-gradient(45deg, #936c5a 0%, #7d5b4b 50%, #634639 100%);
   box-shadow: inset -1px -1px 3px rgba(0, 0, 0, 0.4),
     0 0 8px rgba(147, 108, 90, 0.3);
+}
+
+/* Add these new styles */
+.solar-system-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  z-index: 10;
+}
+
+.controls button {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.controls button:hover {
+  background: #444;
+}
+
+.speed-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+}
+
+.planet-info {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.95);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 300px;
+  z-index: 10;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin: 15px 0;
+}
+
+.planet:hover {
+  transform: translate(-50%, -50%) scale(1.2) !important;
+  z-index: 3;
+}
+
+.planet.selected {
+  box-shadow: 0 0 20px white;
+  z-index: 3;
+}
+
+.orbit-hidden {
+  border-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .solar-system {
+    transform: none;
+  }
+
+  .controls {
+    flex-direction: column;
+    gap: 10px;
+    bottom: 10px;
+    padding: 10px;
+  }
+
+  .planet-info {
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    max-width: none;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .solar-system {
+    transform: none;
+  }
+}
+
+@media (max-height: 600px) {
+  .solar-system {
+    transform: none;
+  }
+}
+
+/* Add landscape mode optimization */
+@media (max-height: 500px) and (orientation: landscape) {
+  .solar-system {
+    transform: none;
+  }
+
+  .controls {
+    flex-direction: row;
+    right: 10px;
+    left: auto;
+    transform: none;
+  }
 }
