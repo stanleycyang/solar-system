@@ -1,4 +1,4 @@
-import { PlanetConfig } from "./types";
+import { PlanetConfig } from "../types";
 
 interface PlanetInfoProps {
   planet: PlanetConfig;

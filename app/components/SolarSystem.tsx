@@ -1,20 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import PlanetInfo from "./PlanetInfo";
 import Controls from "./Controls";
-
-interface PlanetConfig {
-  name: string;
-  orbitRadius: number;
-  speed: number;
-  info: {
-    diameter: string;
-    dayLength: string;
-    yearLength: string;
-    temperature: string;
-    description: string;
-  };
-}
+import { PlanetConfig } from "../types";
 
 const getScaleFactor = () => {
   // Get the viewport dimensions
